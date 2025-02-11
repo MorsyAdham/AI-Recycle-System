@@ -210,10 +210,4 @@ dataset.augment_data("datasets/augmented")
 
 ---
 
-## **📌 8. Next Steps**
-1. **Train the model on TACO dataset** (or custom dataset)  
-2. **Deploy on an edge device (e.g., Raspberry Pi, Jetson Nano)**  
-3. **Fine-tune with real-world collected data**  
-
-This README provides **everything needed to train, test, and deploy the AI recycling system**. 🚀
 
