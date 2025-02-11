@@ -15,7 +15,7 @@ pip install torch tensorflow opencv-python ultralytics matplotlib albumentations
 
 ### **🔹 Cloning the Repository**
 ```bash
-git clone https://github.com/your-repo/recycle_ai.git
+https://github.com/MorsyAdham/AI-Recycle-System.git
 cd recycle_ai
 ```
 
