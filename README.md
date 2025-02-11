@@ -115,38 +115,7 @@ deploy.run()
 
 ---
 
-## **📌 4. Flutter Mobile App**
-The project includes a **Flutter mobile app** that allows users to monitor and interact with the sorting bin remotely. The app connects via **WiFi/Bluetooth** to receive real-time detection results and send control commands.
-
-### **🔹 Features**
-- 📸 **Live camera feed** with detection results.
-- 📊 **Sorting statistics & history**.
-- 🔄 **Manual override** to open/close the bin.
-- 🌍 **Remote monitoring & control**.
-
-### **🔹 Setup Instructions**
-1. Install Flutter: [Flutter Setup Guide](https://flutter.dev/docs/get-started/install)
-2. Clone the mobile app repository:
-```bash
-git clone https://github.com/your-repo/recycle_ai_app.git
-cd recycle_ai_app
-flutter pub get
-```
-3. Run the app:
-```bash
-flutter run
-```
-
-### **🔹 Example Usage**
-```dart
-// Connect to the sorting bin via WiFi
-SortingBinController binController = SortingBinController(ip: "192.168.1.10");
-binController.getLiveFeed();
-```
-
----
-
-## **📌 5. How to Train & Deploy the Model**
+## **📌 4. How to Train & Deploy the Model**
 
 ### **🔹 Training YOLOv8**
 ```python
@@ -180,7 +149,7 @@ deploy.run()
 
 ---
 
-## **📌 6. Advanced Features**
+## **📌 5. Advanced Features**
 
 ### **🔹 Self-Learning: Improve Model Over Time**
 - The system **saves newly detected images** for future training.
@@ -200,7 +169,7 @@ dataset.augment_data("datasets/augmented")
 
 ---
 
-## **📌 7. Summary**
+## **📌 6. Summary**
 ✅ **YOLOv8 for Object Detection** (Plastic, Aluminum, Paper, Glass)  
 ✅ **EfficientNet for Classification** (Material Type)  
 ✅ **Self-Improving AI** (Collects new data & learns over time)  
