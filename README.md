@@ -25,17 +25,46 @@ cd recycle_ai
 
 ### **🔹 General Libraries**
 - `os`, `time`, `json`, `shutil`, `subprocess`, `cv2` (OpenCV), `numpy`
+| Library | Purpose |
+|---------|---------|
+| `os` | Handles file and directory operations |
+| `time` | Manages timestamps for saving images |
+| `json` | Handles structured logging (misclassifications) |
+| `cv2` | (OpenCV) Handles image processing and video feed |
+| `shutil` | For file operations (copying, moving data) |
+| `subprocess` | Executes shell commands (e.g., YOLO training) |
+| `numpy` | For array operations and preprocessing |
 
 ### **🔹 Deep Learning Libraries**
 - `torch`, `tensorflow`, `ultralytics`
 - `tensorflow.keras.applications`, `tensorflow.keras.preprocessing.image`, `tensorflow.keras.layers`, `tensorflow.keras.models`
+| Library | Purpose |
+|---------|---------|
+| `torch` | PyTorch backend for YOLOv8 |
+| `tensorflow` | Keras backend for EfficientNet |
+| `ultralytics` | YOLOv8 model for object detection |
+| `tensorflow.keras.applications` | Pre-trained models (EfficientNetB0) |
+| `tensorflow.keras.preprocessing.image` | Image processing utilities |
+| `tensorflow.keras.layers` | Neural network layers |
+| `tensorflow.keras.models` | Model building utilities |
 
 ### **🔹 Data Handling & Visualization**
 - `matplotlib.pyplot`, `albumentations`, `sklearn.utils.class_weight`
-
+| Library | Purpose |
+|---------|---------|
+| `matplotlib.pyplot` | Visualizing dataset distribution & training |
+| `albumentations` | Data augmentation for better model generalization |
+| `sklearn.utils.class_weight` | Handling class imbalance |
 ---
 
-## **📌 3. Classes & Functions**
+## **📌 3. Class & Function Descriptions**
+The code consists of **five major classes**:
+
+1. `DatasetHandler` → Manages dataset, visualization & augmentation  
+2. `YOLOModel` → Handles YOLOv8 object detection model  
+3. `EfficientNetModel` → Manages EfficientNet classification model  
+4. `SelfLearningSystem` → Enables self-improving dataset collection  
+5. `Deployment` → Runs the AI model on a **laptop** or **edge device**  
 
 ### **🔹 `DatasetHandler` (Dataset Management)**
 | Method | Description |
