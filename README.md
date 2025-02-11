@@ -174,7 +174,6 @@ dataset.augment_data("datasets/augmented")
 ✅ **EfficientNet for Classification** (Material Type)  
 ✅ **Self-Improving AI** (Collects new data & learns over time)  
 ✅ **Deployment on Laptop & Edge Devices**  
-✅ **Flutter Mobile App for Monitoring & Control**  
 ✅ **Dataset Handling, Augmentation, and Visualization**  
 
 ---
