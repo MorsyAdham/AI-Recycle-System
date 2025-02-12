@@ -48,6 +48,7 @@ class DatasetHandler:
         """
         Applies data augmentation to balance the dataset.
         """
+        os.makedirs(save_path, exist_ok=True)
         augmentor = A.Compose([
             A.HorizontalFlip(p=0.5),
             A.Rotate(limit=30, p=0.5),
@@ -62,11 +63,13 @@ class DatasetHandler:
             for img_name in os.listdir(class_path):
                 img_path = os.path.join(class_path, img_name)
                 image = cv2.imread(img_path)
+                if image is None:
+                    continue
                 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
                 augmented = augmentor(image=image)['image']
                 aug_img_name = f"aug_{img_name}"
-                cv2.imwrite(os.path.join(save_class_path, aug_img_name), augmented)
+                cv2.imwrite(os.path.join(save_class_path, aug_img_name), cv2.cvtColor(augmented, cv2.COLOR_RGB2BGR))
 
         print("Data Augmentation Completed!")
 
@@ -118,6 +121,9 @@ class EfficientNetModel:
         history = self.model.fit(train_generator, epochs=epochs)
         self.visualize_training(history)
 
+        # Save model in `.keras` format
+        self.model.save("models/efficientnet.keras")
+
     def visualize_training(self, history):
         """
         Plots training loss and accuracy.
@@ -141,35 +147,6 @@ class EfficientNetModel:
         plt.show()
 
 
-class SelfLearningSystem:
-    """
-    Enables self-improving dataset collection.
-    """
-
-    def __init__(self, save_path="collected_data/", log_file="logs/misclassified.json"):
-        self.save_path = save_path
-        self.log_file = log_file
-
-    def save_detected_image(self, frame, prediction):
-        """
-        Saves detected images for retraining.
-        """
-        os.makedirs(self.save_path, exist_ok=True)
-        filename = f"{self.save_path}/{prediction}_{int(time.time())}.jpg"
-        cv2.imwrite(filename, frame)
-
-    def log_misclassification(self, image_path, true_label, predicted_label):
-        """
-        Logs misclassified images.
-        """
-        os.makedirs("logs/", exist_ok=True)
-        log_data = {"image": image_path, "true_label": true_label, "predicted_label": predicted_label}
-
-        with open(self.log_file, "a") as f:
-            json.dump(log_data, f)
-            f.write("\n")
-
-
 class Deployment:
     """
     Handles deployment for laptop testing & edge device.
@@ -178,7 +155,7 @@ class Deployment:
     def __init__(self, model_type="laptop"):
         self.model_type = model_type
         self.yolo = YOLOModel("models/best.pt")
-        self.classifier = tf.keras.models.load_model("models/efficientnet.h5")
+        self.classifier = tf.keras.models.load_model("models/efficientnet.keras")
 
     def run(self):
         """
@@ -186,19 +163,21 @@ class Deployment:
         """
         cap = cv2.VideoCapture(0)  # Use camera
 
-        while True:
+        while cap.isOpened():
             ret, frame = cap.read()
             if not ret:
                 break
 
             detections = self.yolo.detect(frame)
             for result in detections:
-                x1, y1, x2, y2, conf, cls = result.boxes.xyxy[0]
-                detected_material = result.names[int(cls)]
+                if result.boxes.xyxy:
+                    x1, y1, x2, y2, conf, cls = result.boxes.xyxy[0]
+                    detected_material = result.names[int(cls)]
 
-                # Classification
-                material_type = self.classifier.predict(np.expand_dims(frame, axis=0))
-                print(f"Detected: {detected_material}, Classified as: {material_type}")
+                    # Classification
+                    frame_resized = cv2.resize(frame, (224, 224)) / 255.0
+                    material_type = self.classifier.predict(np.expand_dims(frame_resized, axis=0))
+                    print(f"Detected: {detected_material}, Classified as: {np.argmax(material_type)}")
 
             cv2.imshow("Sorting Bin", frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
